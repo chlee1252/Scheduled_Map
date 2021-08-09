@@ -7,14 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:scheduled_map/home/screen/home_screen.dart';
+import 'package:scheduled_map/details/screen/details_screen.dart';
 
 import 'package:scheduled_map/main.dart';
 
 void main() {
   testWidgets('Find Hello World!', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(HomeScreen());
+    await tester.pumpWidget(DetailsScreen());
 
     // Verify that our counter starts at 0.
     expect(find.text('Hello World!'), findsOneWidget);

@@ -1,3 +1,0 @@
-enum HomeState {
-  NORMAL, MENU
-}

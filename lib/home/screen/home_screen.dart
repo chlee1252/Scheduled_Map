@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:scheduled_map/constants.dart';
-import 'package:scheduled_map/home/controllers/home_state.dart';
-import 'package:scheduled_map/home/controllers/home_controller.dart';
 import 'package:scheduled_map/home/widget/home_header.dart';
+import 'package:scheduled_map/home/widget/route_card.dart';
+import 'package:scheduled_map/models/Items.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeController homeController = HomeController();
 
-  void _onVerticalGesture(DragUpdateDetails details) {
-    if (details.primaryDelta! < -0.7) {
-      homeController.changeHomeState(HomeState.MENU);
-    } else if (details.primaryDelta! > 12) {
-      homeController.changeHomeState(HomeState.NORMAL);
-    }
-  }
-
+  final List<Items> example = [
+    new Items(title: "item1", image: "assets/icon/bus.png"),
+    new Items(title: "item2", image: "assets/icon/bus.png"),
+    new Items(title: "item3", image: "assets/icon/bus.png")
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,69 +18,32 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: Container(
-          color: greyTheme,
-          child: AnimatedBuilder(
-            animation: homeController,
-            builder: (context, _) {
-              return LayoutBuilder(
-                builder: (context, BoxConstraints constraints) {
-                  return Stack(
-                    children: [
-                      AnimatedPositioned(
-                        duration: panelTransition,
-                        top: homeController.homeState == HomeState.NORMAL
-                            ? headerHeight
-                            : -(constraints.maxHeight -
-                                menuBarHeight * 2 -
-                                headerHeight),
-                        left: 0,
-                        right: 0,
-                        height: constraints.maxHeight -
-                            headerHeight -
-                            menuBarHeight,
-                        child: Container(
-                          padding: const EdgeInsets.all(defaultPadding),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(defaultPadding * 1.5),
-                              bottomRight:
-                                  Radius.circular(defaultPadding * 1.5),
-                            ),
-                          ),
-                          child: Placeholder(),
-                        ),
-                      ),
-                      AnimatedPositioned(
-                        duration: panelTransition,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: homeController.homeState == HomeState.NORMAL
-                            ? menuBarHeight
-                            : constraints.maxHeight - menuBarHeight,
-                        child: GestureDetector(
-                          onVerticalDragUpdate: _onVerticalGesture,
-                          child: Container(
-                            color: greyTheme,
-                          ),
-                        ),
-                      ),
-                      AnimatedPositioned(
-                        duration: panelTransition,
-                        top: homeController.homeState == HomeState.NORMAL
-                            ? 0
-                            : -headerHeight,
-                        right: 0,
-                        left: 0,
-                        height: headerHeight,
-                        child: HomeHeader(),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+          child: Column(
+            children: [
+              HomeHeader(),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(defaultPadding * 1.5),
+                      bottomRight: Radius.circular(defaultPadding * 1.5),
+                    ),
+                  ),
+                  child: GridView.builder(
+                    itemCount: example.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                      mainAxisSpacing: defaultPadding,
+                      crossAxisSpacing: defaultPadding,
+                    ),
+                    itemBuilder: (context, index) => RouteCard(items: example[index], press: () {}),
+                  )
+                ),
+              ),
+            ],
           ),
         ),
       ),
