@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scheduled_map/add/screens/add_screen.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/details/screen/details_screen.dart';
 import 'package:scheduled_map/home/screen/home_screen.dart';
@@ -35,6 +36,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: "/details",
           page: () => DetailsScreen(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: "/add",
+          page: () => AddScreen(),
           transition: Transition.fadeIn,
         )
       ],

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/home/widget/home_header.dart';
 import 'package:scheduled_map/home/widget/route_card.dart';
 import 'package:scheduled_map/models/Items.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<Items> example = [
+  final SelectedTimeController selectedTimeController = Get.find();
+
+  List<Items> example = [
     new Items(title: "item1", image: "assets/icon/bus.png"),
     new Items(title: "item2", image: "assets/icon/bus.png"),
-    new Items(title: "item3", image: "assets/icon/bus.png")
+    new Items(title: "item3", image: "assets/icon/bus.png"),
   ];
 
   @override
@@ -54,6 +57,14 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: greyTheme,
+        child: Icon(
+          Icons.add,
+          color: Colors.black54,
+        ),
+        onPressed: () => Get.toNamed("/add"),
       ),
     );
   }
