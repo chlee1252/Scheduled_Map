@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:scheduled_map/constants.dart';
-import 'package:scheduled_map/details/controllers/details_state.dart';
 import 'package:scheduled_map/details/controllers/details_controller.dart';
-import 'package:scheduled_map/details/widget/details_header.dart';
+import 'package:scheduled_map/details/controllers/details_state.dart';
+import 'package:scheduled_map/details/widget/details_appbar.dart';
 
 class DetailsScreen extends StatelessWidget {
-  final DetailsController homeController = DetailsController();
+  DetailsScreen({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+  final DetailsController detailsController = DetailsController();
 
   void _onVerticalGesture(DragUpdateDetails details) {
     if (details.primaryDelta! < -0.7) {
-      homeController.changeHomeState(DetailState.MENU);
+      detailsController.changeHomeState(DetailState.MENU);
     } else if (details.primaryDelta! > 12) {
-      homeController.changeHomeState(DetailState.NORMAL);
+      detailsController.changeHomeState(DetailState.NORMAL);
     }
   }
 
@@ -24,7 +27,7 @@ class DetailsScreen extends StatelessWidget {
         child: Container(
           color: greyTheme,
           child: AnimatedBuilder(
-            animation: homeController,
+            animation: detailsController,
             builder: (context, _) {
               return LayoutBuilder(
                 builder: (context, BoxConstraints constraints) {
@@ -32,7 +35,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       AnimatedPositioned(
                         duration: panelTransition,
-                        top: homeController.homeState == DetailState.NORMAL
+                        top: detailsController.homeState == DetailState.NORMAL
                             ? headerHeight
                             : -(constraints.maxHeight -
                                 menuBarHeight * 2 -
@@ -60,9 +63,10 @@ class DetailsScreen extends StatelessWidget {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        height: homeController.homeState == DetailState.NORMAL
-                            ? menuBarHeight
-                            : constraints.maxHeight - menuBarHeight,
+                        height:
+                            detailsController.homeState == DetailState.NORMAL
+                                ? menuBarHeight
+                                : constraints.maxHeight - menuBarHeight,
                         child: GestureDetector(
                           onVerticalDragUpdate: _onVerticalGesture,
                           child: Container(
@@ -77,13 +81,15 @@ class DetailsScreen extends StatelessWidget {
                       ),
                       AnimatedPositioned(
                         duration: panelTransition,
-                        top: homeController.homeState == DetailState.NORMAL
+                        top: detailsController.homeState == DetailState.NORMAL
                             ? 0
                             : -headerHeight,
                         right: 0,
                         left: 0,
                         height: headerHeight,
-                        child: DetailsHeader(),
+                        child: DetailsAppbar(
+                          title: title,
+                        ),
                       ),
                     ],
                   );
