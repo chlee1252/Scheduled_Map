@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/home/widget/on_icon.dart';
 import 'package:scheduled_map/home/widget/time.dart';
@@ -46,7 +45,7 @@ class RouteCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Time(startTime: "12:00"),
-                OnIcon()
+                OnIcon(),
               ],
             )
           ],
