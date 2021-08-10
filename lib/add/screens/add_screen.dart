@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/add/widget/circular_button.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/home/controllers/home_controller.dart';
+import 'package:scheduled_map/models/Items.dart';
 
 class AddScreen extends StatelessWidget {
-  final SelectedTimeController selectedTimeController =
-      Get.put(SelectedTimeController());
+  final SelectedTimeController selectedTimeController = Get.find();
+  final HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,15 @@ class AddScreen extends StatelessWidget {
                 child: Text("Add"),
                 primaryColor: greyTheme,
                 onPrimaryColor: Colors.black,
-                onPressed: () => Get.toNamed("/home"),
+                onPressed: () {
+                  homeController.addItem(
+                    new Items(
+                      title: selectedTimeController.getTime().toString(),
+                      image: "assets/icon/bus.png",
+                    ),
+                  );
+                  Get.toNamed("/home");
+                },
               ),
               CircularButton(
                 child: Text("Cancel"),

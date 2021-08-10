@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/home/controllers/home_controller.dart';
 import 'package:scheduled_map/home/widget/home_header.dart';
 import 'package:scheduled_map/home/widget/route_card.dart';
-import 'package:scheduled_map/models/Items.dart';
 
 class HomeScreen extends StatelessWidget {
   final SelectedTimeController selectedTimeController = Get.find();
-
-  List<Items> example = [
-    new Items(title: "item1", image: "assets/icon/bus.png"),
-    new Items(title: "item2", image: "assets/icon/bus.png"),
-    new Items(title: "item3", image: "assets/icon/bus.png"),
-  ];
+  final HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   child: GridView.builder(
-                    itemCount: example.length,
+                    itemCount: homeController.getItems().length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.75,
@@ -45,10 +40,12 @@ class HomeScreen extends StatelessWidget {
                       crossAxisSpacing: defaultPadding,
                     ),
                     itemBuilder: (context, index) => RouteCard(
-                      items: example[index],
+                      items: homeController.getItems()[index],
                       press: () => Get.toNamed(
                         "/details",
-                        arguments: {"title": example[index].title!},
+                        arguments: {
+                          "title": homeController.getItems()[index].title!
+                        },
                       ),
                     ),
                   ),
