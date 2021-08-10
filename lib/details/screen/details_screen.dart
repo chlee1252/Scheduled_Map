@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/details/controllers/details_controller.dart';
 import 'package:scheduled_map/details/controllers/details_state.dart';
 import 'package:scheduled_map/details/widget/details_appbar.dart';
 
 class DetailsScreen extends StatelessWidget {
-  DetailsScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
   final DetailsController detailsController = DetailsController();
 
   void _onVerticalGesture(DragUpdateDetails details) {
@@ -88,7 +86,7 @@ class DetailsScreen extends StatelessWidget {
                         left: 0,
                         height: headerHeight,
                         child: DetailsAppbar(
-                          title: title,
+                          title: Get.arguments['title'],
                         ),
                       ),
                     ],

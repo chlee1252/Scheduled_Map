@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/details/screen/details_screen.dart';
 import 'package:scheduled_map/home/screen/home_screen.dart';
 
 void main() {
@@ -25,7 +26,19 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      getPages: [
+        GetPage(
+          name: "/home",
+          page: () => HomeScreen(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: "/details",
+          page: () => DetailsScreen(),
+          transition: Transition.fadeIn,
+        )
+      ],
+      initialRoute: "/home",
     );
   }
 }

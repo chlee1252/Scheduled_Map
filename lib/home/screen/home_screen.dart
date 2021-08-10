@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scheduled_map/constants.dart';
-import 'package:scheduled_map/details/screen/details_screen.dart';
 import 'package:scheduled_map/home/widget/home_header.dart';
 import 'package:scheduled_map/home/widget/route_card.dart';
 import 'package:scheduled_map/models/Items.dart';
@@ -44,8 +43,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     itemBuilder: (context, index) => RouteCard(
                       items: example[index],
-                      press: () => Get.to(
-                        DetailsScreen(title: example[index].title!),
+                      press: () => Get.toNamed(
+                        "/details",
+                        arguments: {"title": example[index].title!},
                       ),
                     ),
                   ),
