@@ -31,21 +31,24 @@ class HomeScreen extends StatelessWidget {
                       bottomRight: Radius.circular(defaultPadding * 1.5),
                     ),
                   ),
-                  child: GridView.builder(
-                    itemCount: homeController.getItems().length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      mainAxisSpacing: defaultPadding,
-                      crossAxisSpacing: defaultPadding,
-                    ),
-                    itemBuilder: (context, index) => RouteCard(
-                      items: homeController.getItems()[index],
-                      press: () => Get.toNamed(
-                        "/details",
-                        arguments: {
-                          "title": homeController.getItems()[index].title!
-                        },
+                  child: Obx(
+                    () => GridView.builder(
+                      itemCount: homeController.getItems().length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                        mainAxisSpacing: defaultPadding,
+                        crossAxisSpacing: defaultPadding,
+                      ),
+                      itemBuilder: (context, index) => RouteCard(
+                        index: index,
+                        items: homeController.getItems()[index],
+                        press: () => Get.toNamed(
+                          "/details",
+                          arguments: {
+                            "title": homeController.getItems()[index].title!
+                          },
+                        ),
                       ),
                     ),
                   ),

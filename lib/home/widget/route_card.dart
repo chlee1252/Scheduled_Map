@@ -1,18 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/home/controllers/home_controller.dart';
 import 'package:scheduled_map/home/widget/on_icon.dart';
 import 'package:scheduled_map/home/widget/time.dart';
 import 'package:scheduled_map/models/Items.dart';
 
 class RouteCard extends StatelessWidget {
-  const RouteCard({
+  RouteCard({
     Key? key,
     required this.items,
     required this.press,
+    required this.index,
   }) : super(key: key);
 
   final Items items;
+  final int index;
   final VoidCallback press;
+  final HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +35,32 @@ class RouteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: IconButton(
+                    onPressed: () => homeController.removeItem(index),
+                    icon: Icon(
+                      CupertinoIcons.delete_simple,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Image.asset(items.image!),
-            Text(
-              items.title!,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(fontWeight: FontWeight.w600),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                items.title!,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
             Text(
               "Bus",

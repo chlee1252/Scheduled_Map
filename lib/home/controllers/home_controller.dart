@@ -6,7 +6,7 @@ class HomeController extends GetxController {
     new Items(title: "item1", image: "assets/icon/bus.png"),
     new Items(title: "item2", image: "assets/icon/bus.png"),
     new Items(title: "item3", image: "assets/icon/bus.png"),
-  ];
+  ].obs;
 
   List<Items> getItems() => items;
 
@@ -16,5 +16,9 @@ class HomeController extends GetxController {
 
   void addItem(Items item) {
     items.add(item);
+  }
+
+  void removeItem(int index) {
+    items.removeAt(index);
   }
 }
