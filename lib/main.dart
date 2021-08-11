@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scheduled_map/add/screens/add_screen.dart';
@@ -10,7 +11,10 @@ import 'add/controllers/selected_time_controller.dart';
 import 'details/controllers/switch_controller.dart';
 import 'home/controllers/home_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
+  await FlutterConfig.loadEnvVariables();
+
   runApp(MyApp());
 }
 

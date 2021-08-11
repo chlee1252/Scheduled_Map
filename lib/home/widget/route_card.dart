@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/details/controllers/switch_controller.dart';
 import 'package:scheduled_map/home/controllers/home_controller.dart';
+import 'package:scheduled_map/home/widget/notification_switch.dart';
 import 'package:scheduled_map/models/Items.dart';
-import 'package:scheduled_map/util/color_util.dart';
 
 class RouteCard extends StatelessWidget {
   RouteCard({
@@ -61,19 +61,7 @@ class RouteCard extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: Transform.scale(
-                  scale: 0.7,
-                  child: CupertinoSwitch(
-                    activeColor:
-                        ColorUtil.convertHexToColor(hexColorCode: "#83E4F9"),
-                    value: items.notification.value,
-                    onChanged: (value) => homeController.toggleSwitch(index),
-                  ),
-                ),
-              ),
+              NotificationSwitch(items: items, index: index),
             ],
           )
         ],
