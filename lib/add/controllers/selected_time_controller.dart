@@ -7,5 +7,6 @@ class SelectedTimeController extends GetxController {
 
   void setTime(DateTime newTime) {
     _time = newTime;
+    update();
   }
 }

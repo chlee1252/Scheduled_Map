@@ -7,6 +7,7 @@ import 'package:scheduled_map/details/screen/details_screen.dart';
 import 'package:scheduled_map/home/screen/home_screen.dart';
 
 import 'add/controllers/selected_time_controller.dart';
+import 'details/controllers/switch_controller.dart';
 import 'home/controllers/home_controller.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   final SelectedTimeController selectedTimeController =
       Get.put(SelectedTimeController());
   final HomeController homeController = Get.put(HomeController());
+  final SwitchController switchController = Get.put(SwitchController());
 
   @override
   Widget build(BuildContext context) {

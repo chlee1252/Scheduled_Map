@@ -59,8 +59,9 @@ class AddScreen extends StatelessWidget {
                 child: CupertinoDatePicker(
                   initialDateTime: DateTime.now(),
                   mode: CupertinoDatePickerMode.time,
-                  onDateTimeChanged: (datetime) =>
-                      SelectedTimeController().setTime(datetime),
+                  onDateTimeChanged: (datetime) {
+                    selectedTimeController.setTime(datetime);
+                  },
                 ),
               ),
               SizedBox(
@@ -75,6 +76,7 @@ class AddScreen extends StatelessWidget {
                     new Items(
                       title: selectedTimeController.getTime().toString(),
                       image: "assets/icon/bus.png",
+                      date: selectedTimeController.getTime(),
                     ),
                   );
                   Get.toNamed("/home");

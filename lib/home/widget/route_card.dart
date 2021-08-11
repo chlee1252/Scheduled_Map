@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/details/controllers/switch_controller.dart';
 import 'package:scheduled_map/home/controllers/home_controller.dart';
-import 'package:scheduled_map/home/widget/on_icon.dart';
-import 'package:scheduled_map/home/widget/time.dart';
 import 'package:scheduled_map/models/Items.dart';
+import 'package:scheduled_map/util/color_util.dart';
 
 class RouteCard extends StatelessWidget {
   RouteCard({
@@ -19,62 +20,89 @@ class RouteCard extends StatelessWidget {
   final int index;
   final VoidCallback press;
   final HomeController homeController = Get.find();
+  final SwitchController switchController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-        decoration: BoxDecoration(
-          color: Color(0xFFF7F7F7),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(defaultPadding * 1.25),
-          ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+      decoration: BoxDecoration(
+        color: Color(0xFFF7F7F7),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(defaultPadding * 1.25),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: IconButton(
-                    onPressed: () => homeController.removeItem(index),
-                    icon: Icon(
-                      CupertinoIcons.delete_simple,
-                      size: 20,
-                    ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: IconButton(
+                  onPressed: () => homeController.removeItem(index),
+                  icon: Icon(
+                    CupertinoIcons.delete_simple,
+                    size: 20,
                   ),
                 ),
-              ],
-            ),
-            Image.asset(items.image!),
-            FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Text(
-                items.title!,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(fontWeight: FontWeight.w600),
               ),
+            ],
+          ),
+          _buildTouchPortion(context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat.jm().format(items.date),
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+                width: 10,
+                child: Transform.scale(
+                  scale: 0.7,
+                  child: CupertinoSwitch(
+                    activeColor:
+                        ColorUtil.convertHexToColor(hexColorCode: "#83E4F9"),
+                    value: items.notification.value,
+                    onChanged: (value) => homeController.toggleSwitch(index),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTouchPortion(BuildContext context) {
+    return GestureDetector(
+      onTap: press,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(items.image!),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              items.title!,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(fontWeight: FontWeight.w600),
             ),
-            Text(
-              "Bus",
-              style: Theme.of(context).textTheme.caption,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Time(startTime: "12:00"),
-                OnIcon(),
-              ],
-            )
-          ],
-        ),
+          ),
+          Text(
+            "Bus",
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ],
       ),
     );
   }
