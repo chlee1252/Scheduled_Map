@@ -16,9 +16,14 @@ class DetailsAppbar extends StatelessWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.black),
+      title: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Text(
+          title,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       actions: [
         OnIcon(radius: 20),
