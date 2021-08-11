@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DetailsAppbar extends StatelessWidget {
+class BottomPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();

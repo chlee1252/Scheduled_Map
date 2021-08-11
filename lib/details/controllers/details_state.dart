@@ -1,3 +1,0 @@
-enum DetailState {
-  NORMAL, MENU
-}

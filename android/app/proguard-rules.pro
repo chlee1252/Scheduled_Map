@@ -1,0 +1,1 @@
+-keep class com.chlee1252.scheduled_map.BuildConfig { *; }
