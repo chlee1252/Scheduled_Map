@@ -8,7 +8,7 @@ class Map extends StatelessWidget {
   Widget build(BuildContext context) {
     final CameraPosition _user = CameraPosition(
       target: latLng,
-      zoom: 12.0,
+      zoom: 15.0,
       tilt: 0,
     );
 
@@ -16,6 +16,9 @@ class Map extends StatelessWidget {
       initialCameraPosition: _user,
       mapType: MapType.normal,
       myLocationEnabled: true,
+      padding: EdgeInsets.only(
+        bottom: 100.0,
+      ),
     );
   }
 }
