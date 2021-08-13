@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scheduled_map/add/controllers/text_field_controller.dart';
 import 'package:scheduled_map/add/screens/add_screen.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/details/screen/details_screen.dart';
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
       Get.put(SelectedTimeController());
   final HomeController homeController = Get.put(HomeController());
   final SwitchController switchController = Get.put(SwitchController());
-  final TextFieldController addTextFormField = Get.put(TextFieldController());
 
   @override
   Widget build(BuildContext context) {

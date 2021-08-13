@@ -15,7 +15,9 @@ import 'package:scheduled_map/models/Items.dart';
 class AddScreen extends StatelessWidget {
   final SelectedTimeController selectedTimeController = Get.find();
   final HomeController homeController = Get.find();
-  final TextFieldController textFieldController = Get.find();
+  final TextFieldController textFieldController =
+      Get.put(TextFieldController());
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,83 +66,94 @@ class AddScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(defaultPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      AddTextFormField(
-                        label: "Title",
-                        hintText: "일정 이름을 정해주세요",
-                      ),
-                      AddTextFormField(
-                        label: "출발지",
-                        hintText: "출발지를 검색해 주세요",
-                        onTap: () async {
-                          var value = await getPrediction();
-                        },
-                      ),
-                      AddTextFormField(
-                        label: "목적지",
-                        hintText: "목적지를 검색해 주세요",
-                        onTap: () async {
-                          var value = await getPrediction();
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: defaultPadding,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                    border: Border.all(
-                      color: greyTheme,
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(defaultPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        AddTextFormField(
+                          controller: textFieldController.titleTextController,
+                          label: "Title",
+                          hintText: "일정 이름을 정해주세요",
+                        ),
+                        AddTextFormField(
+                          controller:
+                              textFieldController.destinationTextController,
+                          label: "출발지",
+                          hintText: "출발지를 검색해 주세요",
+                          onTap: () async {
+                            var value = await getPrediction();
+                          },
+                        ),
+                        AddTextFormField(
+                          controller: textFieldController.departTextController,
+                          label: "목적지",
+                          hintText: "목적지를 검색해 주세요",
+                          onTap: () async {
+                            var value = await getPrediction();
+                          },
+                        )
+                      ],
                     ),
                   ),
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  child: CupertinoDatePicker(
-                    initialDateTime: DateTime.now(),
-                    mode: CupertinoDatePickerMode.time,
-                    onDateTimeChanged: (datetime) {
-                      selectedTimeController.setTime(datetime);
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: defaultPadding,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                      border: Border.all(
+                        color: greyTheme,
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: CupertinoDatePicker(
+                      initialDateTime: DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (datetime) {
+                        selectedTimeController.setTime(datetime);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: defaultPadding,
+                  ),
+                  CircularButton(
+                    child: Text("Add"),
+                    primaryColor: greyTheme,
+                    onPrimaryColor: Colors.black,
+                    onPressed: () {
+                      homeController.addItem(
+                        new Items(
+                          title: textFieldController.getText,
+                          image: "assets/icon/bus.png",
+                          date: selectedTimeController.getTime(),
+                        ),
+                      );
+                      textFieldController.clearInput();
+                      Get.toNamed("/home");
                     },
                   ),
-                ),
-                SizedBox(
-                  height: defaultPadding,
-                ),
-                CircularButton(
-                  child: Text("Add"),
-                  primaryColor: greyTheme,
-                  onPrimaryColor: Colors.black,
-                  onPressed: () {
-                    homeController.addItem(
-                      new Items(
-                        title: textFieldController.getText,
-                        image: "assets/icon/bus.png",
-                        date: selectedTimeController.getTime(),
-                      ),
-                    );
-                    Get.toNamed("/home");
-                  },
-                ),
-                CircularButton(
-                  child: Text("Cancel"),
-                  primaryColor: Colors.black54,
-                  onPrimaryColor: Colors.white,
-                  onPressed: () => Get.toNamed("/home"),
-                )
-              ],
+                  CircularButton(
+                    child: Text("Cancel"),
+                    primaryColor: Colors.black54,
+                    onPrimaryColor: Colors.white,
+                    onPressed: () {
+                      textFieldController.clearInput();
+                      Get.toNamed("/home");
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         ),

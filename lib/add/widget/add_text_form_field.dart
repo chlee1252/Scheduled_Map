@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:scheduled_map/add/controllers/text_field_controller.dart';
 import 'package:scheduled_map/constants.dart';
 
 class AddTextFormField extends StatelessWidget {
@@ -9,21 +7,20 @@ class AddTextFormField extends StatelessWidget {
     Key? key,
     required this.label,
     required this.hintText,
+    required this.controller,
     this.onTap,
   }) : super(key: key);
 
   final String label;
   final String hintText;
   final VoidCallback? onTap;
-  final TextFieldController textFieldController = Get.find();
-
-  final TextEditingController _text = TextEditingController();
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: onTap,
-      controller: _text,
+      controller: controller,
       decoration: InputDecoration(
         labelText: this.label,
         labelStyle: TextStyle(color: Colors.black),
@@ -40,10 +37,6 @@ class AddTextFormField extends StatelessWidget {
           gapPadding: 10,
         ),
       ),
-      onChanged: (value) {
-        textFieldController.setText(value);
-        print(textFieldController.getText);
-      },
     );
   }
 }
