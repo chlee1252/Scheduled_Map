@@ -40,11 +40,9 @@ class AddTextFormField extends StatelessWidget {
           gapPadding: 10,
         ),
       ),
-      onEditingComplete: () {
-        // TODO: ADD 버튼 눌렀을때 text set 안됨 확인해보기
-        textFieldController.setText(_text.value.text);
+      onChanged: (value) {
+        textFieldController.setText(value);
         print(textFieldController.getText);
-        FocusManager.instance.primaryFocus?.unfocus();
       },
     );
   }
