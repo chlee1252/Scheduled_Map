@@ -26,19 +26,15 @@ class AddScreen extends StatelessWidget {
       Prediction? p = await PlacesAutocomplete.show(
         context: context,
         apiKey: FlutterConfig.get("GOOGLE_API_KEY"),
-        mode: Mode.overlay,
+        mode: Mode.fullscreen,
         strictbounds: false,
         offset: 0,
         radius: 1000,
         language: "ko",
         decoration: InputDecoration(
           hintText: 'Search',
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.white,
-            ),
-          ),
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
         ),
         types: [],
         components: [new Component(Component.country, "ko")],

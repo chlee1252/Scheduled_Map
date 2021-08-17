@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '언제갈까',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: TextButton.styleFrom(
@@ -38,6 +38,9 @@ class MyApp extends StatelessWidget {
             shape: StadiumBorder(),
             backgroundColor: primaryColor,
           ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black38,
         ),
       ),
       getPages: [
