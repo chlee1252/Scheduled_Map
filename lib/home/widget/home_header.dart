@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduled_map/constants.dart';
+import 'package:scheduled_map/home/utils/time_utils.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -19,7 +20,7 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Good Morning!",
+                "Good " + TimeUtils.greeting() + "!",
                 style: Theme.of(context).textTheme.caption,
               ),
               Text(
