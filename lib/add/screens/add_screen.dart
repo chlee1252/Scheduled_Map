@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:scheduled_map/add/controllers/google_places_controller.dart';
 import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/add/controllers/text_field_controller.dart';
 import 'package:scheduled_map/add/widget/add_text_form_field.dart';
@@ -17,31 +15,12 @@ class AddScreen extends StatelessWidget {
   final HomeController homeController = Get.find();
   final TextFieldController textFieldController =
       Get.put(TextFieldController());
+  final GooglePlacesController googlePlacesController =
+      Get.put(GooglePlacesController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    Future<Prediction?> getPrediction() async {
-      // TODO: 다른 플러그인 찾아보기 -> 불안정함
-      Prediction? p = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: FlutterConfig.get("GOOGLE_API_KEY"),
-        mode: Mode.fullscreen,
-        strictbounds: false,
-        offset: 0,
-        radius: 1000,
-        language: "ko",
-        decoration: InputDecoration(
-          hintText: 'Search',
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
-        types: [],
-        components: [new Component(Component.country, "ko")],
-      );
-      return p;
-    }
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -62,95 +41,97 @@ class AddScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AddTextFormField(
-                          controller: textFieldController.titleTextController,
-                          label: "Title",
-                          hintText: "일정 이름을 정해주세요",
+          child: GetBuilder<GooglePlacesController>(
+            builder: (value) {
+              return Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            AddTextFormField(
+                              controller:
+                                  textFieldController.titleTextController,
+                              label: "Title",
+                              hintText: "일정 이름을 정해주세요",
+                            ),
+                            AddTextFormField(
+                              controller:
+                                  textFieldController.destinationTextController,
+                              label: "출발지",
+                              hintText: "출발지를 검색해 주세요",
+                              onTap: () {},
+                            ),
+                            AddTextFormField(
+                              controller:
+                                  textFieldController.departTextController,
+                              label: "목적지",
+                              hintText: "목적지를 검색해 주세요",
+                              onTap: () {},
+                            )
+                          ],
                         ),
-                        AddTextFormField(
-                          controller:
-                              textFieldController.destinationTextController,
-                          label: "출발지",
-                          hintText: "출발지를 검색해 주세요",
-                          onTap: () async {
-                            var value = await getPrediction();
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: defaultPadding,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                          border: Border.all(
+                            color: greyTheme,
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: CupertinoDatePicker(
+                          initialDateTime: DateTime.now(),
+                          mode: CupertinoDatePickerMode.time,
+                          onDateTimeChanged: (datetime) {
+                            selectedTimeController.setTime(datetime);
                           },
                         ),
-                        AddTextFormField(
-                          controller: textFieldController.departTextController,
-                          label: "목적지",
-                          hintText: "목적지를 검색해 주세요",
-                          onTap: () async {
-                            var value = await getPrediction();
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: defaultPadding,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
                       ),
-                      border: Border.all(
-                        color: greyTheme,
+                      SizedBox(
+                        height: defaultPadding,
                       ),
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: CupertinoDatePicker(
-                      initialDateTime: DateTime.now(),
-                      mode: CupertinoDatePickerMode.time,
-                      onDateTimeChanged: (datetime) {
-                        selectedTimeController.setTime(datetime);
-                      },
-                    ),
+                      CircularButton(
+                        child: Text("Add"),
+                        primaryColor: greyTheme,
+                        onPrimaryColor: Colors.black,
+                        onPressed: () {
+                          homeController.addItem(
+                            new Items(
+                              title: textFieldController.getText,
+                              image: "assets/icon/bus.png",
+                              date: selectedTimeController.getTime(),
+                            ),
+                          );
+                          textFieldController.clearInput();
+                          Get.toNamed("/home");
+                        },
+                      ),
+                      CircularButton(
+                        child: Text("Cancel"),
+                        primaryColor: Colors.black54,
+                        onPrimaryColor: Colors.white,
+                        onPressed: () {
+                          textFieldController.clearInput();
+                          Get.toNamed("/home");
+                        },
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                  CircularButton(
-                    child: Text("Add"),
-                    primaryColor: greyTheme,
-                    onPrimaryColor: Colors.black,
-                    onPressed: () {
-                      homeController.addItem(
-                        new Items(
-                          title: textFieldController.getText,
-                          image: "assets/icon/bus.png",
-                          date: selectedTimeController.getTime(),
-                        ),
-                      );
-                      textFieldController.clearInput();
-                      Get.toNamed("/home");
-                    },
-                  ),
-                  CircularButton(
-                    child: Text("Cancel"),
-                    primaryColor: Colors.black54,
-                    onPrimaryColor: Colors.white,
-                    onPressed: () {
-                      textFieldController.clearInput();
-                      Get.toNamed("/home");
-                    },
-                  )
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),
