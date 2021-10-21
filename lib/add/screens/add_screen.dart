@@ -69,7 +69,7 @@ class AddScreen extends StatelessWidget {
                             ),
                             AddTextFormField(
                               controller:
-                                  textFieldController.destinationTextController,
+                                  textFieldController.departTextController,
                               label: "출발지",
                               hintText: "출발지를 검색해 주세요",
                               suffixIcon: IconButton(
@@ -79,14 +79,14 @@ class AddScreen extends StatelessWidget {
                                 ),
                                 onPressed: () async {
                                   String value = textFieldController
-                                      .destinationTextController.value.text;
+                                      .departTextController.value.text;
                                   await _search(value, context);
                                 },
                               ),
                             ),
                             AddTextFormField(
                               controller:
-                                  textFieldController.departTextController,
+                                  textFieldController.destinationTextController,
                               label: "목적지",
                               hintText: "목적지를 검색해 주세요",
                               suffixIcon: IconButton(
