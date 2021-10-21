@@ -77,11 +77,7 @@ class AddScreen extends StatelessWidget {
                                 onPressed: () async {
                                   String value = textFieldController
                                       .destinationTextController.value.text;
-                                  print(value);
-                                  List<PlaceInfo> response = await kakaoSearch
-                                      .getPlaceByKeyword(value);
-                                  print(response.toString());
-                                  print(response[0].addressName);
+                                  await _search(value);
                                 },
                               ),
                             ),
@@ -90,7 +86,17 @@ class AddScreen extends StatelessWidget {
                                   textFieldController.departTextController,
                               label: "목적지",
                               hintText: "목적지를 검색해 주세요",
-                              onTap: () {},
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () async {
+                                  String value = textFieldController
+                                      .destinationTextController.value.text;
+                                  await _search(value);
+                                },
+                              ),
                             )
                           ],
                         ),
@@ -153,5 +159,16 @@ class AddScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _search(String value) async {
+    if (value.isNotEmpty) {
+      List<PlaceInfo> response = await kakaoSearch.getPlaceByKeyword(value);
+      // TODO: 검색 결과창 or widget
+      return response;
+    } else {
+      // TODO: Alert 보내기
+      print("something");
+    }
   }
 }
