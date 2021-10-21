@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scheduled_map/add/client/dto/place_info.dart';
+import 'package:scheduled_map/add/client/keyword_search_kakao.dart';
 import 'package:scheduled_map/add/controllers/google_places_controller.dart';
 import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/add/controllers/text_field_controller.dart';
@@ -18,6 +20,7 @@ class AddScreen extends StatelessWidget {
   final GooglePlacesController googlePlacesController =
       Get.put(GooglePlacesController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final KeywordSearchKakao kakaoSearch = new KeywordSearchKakao();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,21 @@ class AddScreen extends StatelessWidget {
                                   textFieldController.destinationTextController,
                               label: "출발지",
                               hintText: "출발지를 검색해 주세요",
-                              onTap: () {},
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () async {
+                                  String value = textFieldController
+                                      .destinationTextController.value.text;
+                                  print(value);
+                                  List<PlaceInfo> response = await kakaoSearch
+                                      .getPlaceByKeyword(value);
+                                  print(response.toString());
+                                  print(response[0].addressName);
+                                },
+                              ),
                             ),
                             AddTextFormField(
                               controller:

@@ -8,11 +8,13 @@ class AddTextFormField extends StatelessWidget {
     required this.label,
     required this.hintText,
     required this.controller,
+    this.suffixIcon,
     this.onTap,
   }) : super(key: key);
 
   final String label;
   final String hintText;
+  final IconButton? suffixIcon;
   final VoidCallback? onTap;
   final TextEditingController controller;
 
@@ -25,6 +27,7 @@ class AddTextFormField extends StatelessWidget {
         labelText: this.label,
         labelStyle: TextStyle(color: Colors.black),
         hintText: this.hintText,
+        suffixIcon: suffixIcon,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
