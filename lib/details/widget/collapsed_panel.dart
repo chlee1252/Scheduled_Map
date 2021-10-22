@@ -6,9 +6,11 @@ class CollapsedPanel extends StatelessWidget {
   CollapsedPanel({
     Key? key,
     required this.radius,
+    required this.widget,
   }) : super(key: key);
 
   final BorderRadiusGeometry radius;
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,7 @@ class CollapsedPanel extends StatelessWidget {
             height: 5.0,
           ),
           Expanded(
-            child: Center(
-              child: Text("경로 더보기"),
-            ),
+            child: widget,
           ),
         ],
       ),

@@ -2,14 +2,16 @@ import 'package:get/get.dart';
 import 'package:scheduled_map/models/Items.dart';
 
 class HomeController extends GetxController {
-  List<Items> items = [
-    new Items(
-        title: "item1", image: "assets/icon/bus.png", date: DateTime.now()),
-    new Items(
-        title: "item2", image: "assets/icon/bus.png", date: DateTime.now()),
-    new Items(
-        title: "item3", image: "assets/icon/bus.png", date: DateTime.now()),
-  ];
+  // List<Items> items = [
+  //   new Items(
+  //       title: "item1", image: "assets/icon/bus.png", date: DateTime.now()),
+  //   new Items(
+  //       title: "item2", image: "assets/icon/bus.png", date: DateTime.now()),
+  //   new Items(
+  //       title: "item3", image: "assets/icon/bus.png", date: DateTime.now()),
+  // ];
+
+  List<Items> items = List.empty(growable: true);
 
   List<Items> getItems() => items;
 

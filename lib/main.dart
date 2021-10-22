@@ -6,6 +6,7 @@ import 'package:scheduled_map/add/screens/add_screen.dart';
 import 'package:scheduled_map/constants.dart';
 import 'package:scheduled_map/details/screen/details_screen.dart';
 import 'package:scheduled_map/home/screen/home_screen.dart';
+import 'package:scheduled_map/search/screen/search_screen.dart';
 
 import 'add/controllers/selected_time_controller.dart';
 import 'details/controllers/switch_controller.dart';
@@ -58,7 +59,14 @@ class MyApp extends StatelessWidget {
           name: "/add",
           page: () => AddScreen(),
           transition: Transition.fadeIn,
-        )
+        ),
+        GetPage(
+          name: "/search",
+          page: () => SearchScreen(),
+          transition: Transition.downToUp,
+          transitionDuration: Duration(milliseconds: 1500),
+          curve: Curves.elasticOut,
+        ),
       ],
       initialRoute: "/home",
     );

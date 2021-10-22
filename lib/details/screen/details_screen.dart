@@ -63,8 +63,15 @@ class DetailsScreen extends StatelessWidget {
         body: Map(),
         collapsed: CollapsedPanel(
           radius: radius,
+          widget: Center(
+            child: Text("경로 더보기"),
+          ),
         ),
-        panel: BottomPanel(),
+        panel: BottomPanel(
+          widget: Center(
+            child: Text("경로 더보기"),
+          ),
+        ),
         borderRadius: radius,
       ),
     );
