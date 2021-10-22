@@ -44,7 +44,10 @@ class HomeScreen extends StatelessWidget {
                         press: () => Get.toNamed(
                           "/details",
                           arguments: {
-                            "title": homeController.getItems()[index].title!
+                            "title": homeController.getItems()[index].title!,
+                            "depart": homeController.getItems()[index].depart,
+                            "destination":
+                                homeController.getItems()[index].destination,
                           },
                         ),
                       ),

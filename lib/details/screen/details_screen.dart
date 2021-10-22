@@ -60,7 +60,10 @@ class DetailsScreen extends StatelessWidget {
       body: SlidingUpPanel(
         maxHeight: MediaQuery.of(context).size.height * 0.75,
         minHeight: MediaQuery.of(context).size.height * 0.15,
-        body: Map(),
+        body: Map(
+          depart: Get.arguments['depart'],
+          destination: Get.arguments['destination'],
+        ),
         collapsed: CollapsedPanel(
           radius: radius,
           widget: Center(
