@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scheduled_map/add/controllers/google_places_controller.dart';
 import 'package:scheduled_map/add/controllers/place_controller.dart';
 import 'package:scheduled_map/add/controllers/selected_time_controller.dart';
 import 'package:scheduled_map/add/controllers/text_field_controller.dart';
@@ -16,30 +15,25 @@ import 'package:scheduled_map/search/controller/location_info_controller.dart';
 import 'package:scheduled_map/util/dialog_util.dart';
 
 class AddScreen extends StatelessWidget {
-  final SelectedTimeController selectedTimeController = Get.find();
-  final HomeController homeController = Get.find();
+  final SelectedTimeController selectedTimeController =
+      Get.put(SelectedTimeController());
   final TextFieldController textFieldController =
       Get.put(TextFieldController());
-  final GooglePlacesController googlePlacesController =
-      Get.put(GooglePlacesController());
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final PlaceController placeController = Get.put(PlaceController());
   final LocationInfoController locationInfoController =
       Get.put(LocationInfoController());
+  final HomeController homeController = Get.find();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Screen Build 할때 reset 하고 있는데, 더 좋은 방법 찾아보기..ㅠ
-    selectedTimeController.resetTimeToNow();
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          leading: BackButton(
-            color: Colors.black,
-          ),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
@@ -134,6 +128,9 @@ class AddScreen extends StatelessWidget {
                     primaryColor: greyTheme,
                     onPrimaryColor: Colors.black,
                     onPressed: () {
+                      if (!checkInputValidation(context)) {
+                        return;
+                      }
                       homeController.addItem(
                         new Items(
                           title: textFieldController.getText,
@@ -143,8 +140,7 @@ class AddScreen extends StatelessWidget {
                           destination: locationInfoController.destination,
                         ),
                       );
-                      textFieldController.clearInput();
-                      Get.toNamed("/home");
+                      Get.back();
                     },
                   ),
                   CircularButton(
@@ -152,8 +148,7 @@ class AddScreen extends StatelessWidget {
                     primaryColor: Colors.black54,
                     onPrimaryColor: Colors.white,
                     onPressed: () {
-                      textFieldController.clearInput();
-                      Get.toNamed("/home");
+                      Get.back();
                     },
                   )
                 ],
@@ -165,21 +160,34 @@ class AddScreen extends StatelessWidget {
     );
   }
 
+  bool checkInputValidation(BuildContext context) {
+    if (locationInfoController.depart.x == null ||
+        locationInfoController.depart.y == null) {
+      alertErrorDiaglog(context, "지은아 출발지 검색 먼저 해줘 ㅎㅎ..");
+      return false;
+    } else if (locationInfoController.destination.x == null ||
+        locationInfoController.destination.y == null) {
+      alertErrorDiaglog(context, "지은아 도착지 검색 먼저 해줘 ㅎㅎ..");
+      return false;
+    }
+    return true;
+  }
+
   Future<void> _search(
       String value, BuildContext context, String arguments) async {
     if (value.isNotEmpty) {
       await placeController.loadPlacesByKeyword(value);
       Get.toNamed("/search", arguments: arguments);
     } else {
-      alertEmptyInput(context);
+      alertErrorDiaglog(context, "키워드를 입력해 주세요.");
     }
   }
 
-  void alertEmptyInput(BuildContext context) {
+  void alertErrorDiaglog(BuildContext context, String content) {
     if (Platform.isIOS) {
-      DialogUtil.showCupertinoAlertDialog(context);
+      DialogUtil.showCupertinoAlertDialog(context, content);
       return;
     }
-    DialogUtil.showAlertDialog(context);
+    DialogUtil.showAlertDialog(context, content);
   }
 }
