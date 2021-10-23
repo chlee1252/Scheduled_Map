@@ -9,4 +9,8 @@ class SelectedTimeController extends GetxController {
     _time = newTime;
     update();
   }
+
+  void resetTimeToNow() {
+    _time = DateTime.now();
+  }
 }

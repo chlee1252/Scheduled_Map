@@ -29,6 +29,9 @@ class AddScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Screen Build 할때 reset 하고 있는데, 더 좋은 방법 찾아보기..ㅠ
+    selectedTimeController.resetTimeToNow();
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
